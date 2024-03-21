@@ -20,6 +20,26 @@ def getProducts():
     clientPM.dbFilms()
     data= filmDB.consulta()
     return data
+
+@app.get("/filmsGenere")
+def getProducts(genere: str = "Comedy"):
+    clientPM.dbFilms()
+    data= filmDB.consultaGenere(genere)
+    return data
+
+@app.get("/filmsOrder")
+def getProducts(field: str = "title", order: str = "asc"):
+    clientPM.dbFilms()
+    # Convertir el parámetro de orden a la orden de ordenamiento de MongoDB
+    mongo_order = 1 if order == "asc" else -1
+    data = filmDB.consultaOrder(field, mongo_order)
+    return data
+
+@app.get("/filmsLimit")
+def consultaLimit(limit: int = "10"):
+    clientPM.dbFilms()
+    data = filmDB.consultaLimit(limit)
+    return data
     
 
 @app.get("/film/{id}")
