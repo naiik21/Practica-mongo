@@ -3,9 +3,7 @@ from bson.objectid import ObjectId
 from datetime import datetime
 import json
 
-keys=['product_id', 'name', 'description', 'company', 'price', 'units', 'subcategory_id', 'created_at', 'updated_at']
-
-
+#Schea per poder operar amb l'objecte 
 def film_schema(film)->dict:
     return {"id": str(film["_id"]),
             "title": film["title"],
@@ -20,13 +18,6 @@ def films_schema(films) ->dict:
     return[film_schema(film) for film in films]
 
 
-def transformJson(datas):
-    result=[]
-    # Iterar sobre cada diccionario en la lista
-    for diccionario in datas:
-        # Actualizar el diccionario_resultado con los datos del diccionario actual
-        result.append(diccionario)
-    return result
     
 def consulta():
     try:    
@@ -40,6 +31,7 @@ def consulta():
 def consultaGenere(genere):
     try:    
         conn= clientPM.dbFilms()
+        #Pasem el valor de genere com a "genere"
         data=conn.films.find({"genere": genere})
         result =films_schema(data)
         return result
@@ -78,7 +70,7 @@ def consultaId(id):
 def createFilm(film):
     try:
         conn= clientPM.dbFilms()
-        now = datetime.now()
+        now = datetime.now() #Data i hora en el moment de l'execució
         data={
             "title": film.title,
             "director": film.director,
@@ -108,12 +100,6 @@ def deleteFilm(id):
 def updateFilms(id, film):
     try:
         conn= clientPM.dbFilms()
-        # data=[]
-        # for x in conn.films.find({"_id":id}):
-        #     data.append(x)  
-        # print(data)
-        # if (len(data)==0):
-        #     return 'No existeix pelicula amb aquesta id'
         now = datetime.now()
         data={
             "title": film.title,

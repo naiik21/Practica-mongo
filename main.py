@@ -1,8 +1,6 @@
 from typing import Union
 from fastapi import FastAPI, UploadFile
-
 from Model.Film import Film
-
 from db import clientPM
 from db import filmDB
 
@@ -21,12 +19,14 @@ def getProducts():
     data= filmDB.consulta()
     return data
 
+#Filtrem per genere, en aquest cas com a predeterminat Comedy
 @app.get("/filmsGenere")
 def getProducts(genere: str = "Comedy"):
     clientPM.dbFilms()
     data= filmDB.consultaGenere(genere)
     return data
 
+#Ordenem la taula per title de manera ascendent
 @app.get("/filmsOrder")
 def getProducts(field: str = "title", order: str = "asc"):
     clientPM.dbFilms()
@@ -35,6 +35,7 @@ def getProducts(field: str = "title", order: str = "asc"):
     data = filmDB.consultaOrder(field, mongo_order)
     return data
 
+#En retornara només les 10 primeres 
 @app.get("/filmsLimit")
 def consultaLimit(limit: int = "10"):
     clientPM.dbFilms()
